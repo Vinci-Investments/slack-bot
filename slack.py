@@ -149,7 +149,7 @@ def job():
         else:
             print("Connection failed. Invalid Slack token or bot ID?")
 
-schedule.every().day.at("12:26").do(job)
+schedule.every().day.at("18:30").do(job)
 
 while 1:
     schedule.run_pending()
