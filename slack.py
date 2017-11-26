@@ -13,9 +13,6 @@ from emoji import emojize
 from time import gmtime, strftime
 from weather import Weather
 import schedule
-import goslate
-
-gs = goslate.Goslate()
 
 weather = Weather()
 
@@ -96,7 +93,7 @@ def job():
     if(today_date not in week_end):
         if slack_client.rtm_connect():
             print("StarterBot connected and running!")
-            date = str(strftime("%A %d %B", gmtime()))
+            date = str(strftime("%d/%m/%y", gmtime()))
             message = emojize(":wave:", use_aliases=True)+" Bonjour, nous somme le " +date
             time_0 = str(strftime("%H h %M", gmtime()))
             time_1 = str(int(time_0[0:2])+1)
@@ -114,6 +111,7 @@ def job():
                 message+= emojize(":umbrella:", use_aliases=True)+" "
             if("snow" in texte.lower()):
                 message+= emojize(":snowflake:", use_aliases=True)+" "
+            
             temp = int(round((float(condition.temp()) - 32) * 5.0/9.0,0))
             message += "La température est de "+str(temp)+"°C à La défense."
             message+= "\n\nVoici votre récapitulatif d'aujourd'hui :\n\n"
@@ -122,7 +120,7 @@ def job():
             list_index = [["S&P500",'^spx'], ["Dow Jones",'^dji'],["CAC40",'^cac'], ["DAX", '^dax'],["FTSE", '^ukx'], ["Nikkei", "^nkx"], ["Topix", "^tpx"]]
             list_bond = [["OAT 10 ans France",'10fry.b'], ["Bund 10 ans Allemagne",'10dey.b'], ["BTP 10 ans Italie",'10ity.b']]
             list_currencies = [["EUR/USD",'eurusd'], ["EUR/GBP",'eurgbp'], ["USD/JPY",'usdjpy']]
-            list_commodities = [["Once d'or en dollars",'xauusd'], ["Crude oil Brent",'CB.F'], ["USD/JPY",'usdjpy']]
+            list_commodities = [["Once d'or en dollars",'xauusd'], ["Crude oil Brent",'CB.F']]
             list_crypto = [["Bitcoin/USD",'bitcoin'],["Ethereum/USD",'ethereum'], ["Ripple/USD",'ripple']]
             
             dict_data = {}
@@ -133,11 +131,11 @@ def job():
             dict_data[4] = ["Cryptomonnaies", list_crypto]
             
             for i in range(4):
-                message+= emojize(":small_orange_diamond:", use_aliases=True)+" "+dict_data[i][0]+" :\n"
+                message+= "\n"+emojize(":small_orange_diamond:", use_aliases=True)+" "+dict_data[i][0]+" :\n"
                 for item in dict_data[i][1]:
                     message+= return_csv(item)
             
-            message+= emojize(":small_orange_diamond:", use_aliases=True)+" "+dict_data[4][0]+" :\n"
+            message+= "\n"+emojize(":small_orange_diamond:", use_aliases=True)+" "+dict_data[4][0]+" :\n"
             for item in dict_data[4][1]:
                 message+= return_csv_crypto(item)
             
