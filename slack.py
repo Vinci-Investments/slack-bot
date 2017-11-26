@@ -139,7 +139,7 @@ def job():
             for item in dict_data[4][1]:
                 message+= return_csv_crypto(item)
             
-            message += "\n\n"
+            message += "\n"
             message += emojize(":newspaper:", use_aliases=True)+" Les dernières nouvelles sur Bloomberg : "+"\n"
             request_result = requests.request("GET", "https://newsapi.org/v1/articles?source=bloomberg&sortBy=top&apiKey="+News_Key)
             request_json = request_result.json()
@@ -149,7 +149,7 @@ def job():
         else:
             print("Connection failed. Invalid Slack token or bot ID?")
 
-schedule.every(1).minutes.do(job)
+schedule.every().day.at("16:40").do(job)
 
 while 1:
     schedule.run_pending()
