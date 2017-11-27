@@ -88,13 +88,14 @@ def return_csv_crypto(item):
     return message
 
 def job():
+    print("job")
     today_date = str(strftime("%A", gmtime()))
-    week_end = ["Saturday"]
+    week_end = ["Saturday", "Sunday"]
     if(today_date not in week_end):
         if slack_client.rtm_connect():
             print("StarterBot connected and running!")
             date = str(strftime("%d/%m/%y", gmtime()))
-            message = emojize(":wave:", use_aliases=True)+" Bonjour, nous somme le " +date
+            message = emojize(":wave:", use_aliases=True)+" Bonjour, nous sommes le " +date
             time_0 = str(strftime("%H h %M", gmtime()))
             time_1 = str(int(time_0[0:2])+1)
             message+= " et il est " +time_1+time_0[2:]+".\n"
@@ -149,8 +150,9 @@ def job():
         else:
             print("Connection failed. Invalid Slack token or bot ID?")
 
-schedule.every().day.at("18:30").do(job)
 
 while 1:
-    schedule.run_pending()
-    time.sleep(1)
+    if(str(strftime("%H h %M", gmtime())) == "09 h 15"):
+        job()
+
+    time.sleep(10)
