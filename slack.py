@@ -122,7 +122,7 @@ def job():
             list_bond = [["OAT 10 ans France",'10fry.b'], ["Bund 10 ans Allemagne",'10dey.b'], ["BTP 10 ans Italie",'10ity.b']]
             list_currencies = [["EUR/USD",'eurusd'], ["EUR/GBP",'eurgbp'], ["USD/JPY",'usdjpy']]
             list_commodities = [["Once d'or en dollars",'xauusd'], ["Crude oil Brent",'CB.F']]
-            list_crypto = [["Bitcoin/USD",'bitcoin'],["Ethereum/USD",'ethereum'], ["Ripple/USD",'ripple']]
+            list_crypto = [["Bitcoin/USD",'bitcoin'],["Ethereum/USD",'ethereum'], ["Litecoin/USD",'litecoin']]
             
             dict_data = {}
             dict_data[0] = ["Indices boursiers", list_index]
@@ -150,9 +150,16 @@ def job():
         else:
             print("Connection failed. Invalid Slack token or bot ID?")
 
+bool_uniq = False
 
 while 1:
-    if(str(strftime("%H h %M", gmtime())) == "09 h 15"):
+    
+    # Initialize each day at 01 h 00
+    if(str(strftime("%H h %M", gmtime())) == "01 h 00"):
+        bool_uniq = True
+    
+    if(str(strftime("%H h %M", gmtime())) == "8 h 30" and bool_uniq):
         job()
+        bool_uniq = False
 
     time.sleep(10)
