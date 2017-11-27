@@ -146,7 +146,7 @@ def job():
             request_json = request_result.json()
             for i in range(3):
                 message += emojize(":small_blue_diamond:", use_aliases=True)+request_json['articles'][i]['title']+". Lien : "+request_json['articles'][i]['url']+"\n"
-            slack_client.api_call("chat.postMessage",channel="#test2",text=message)
+            slack_client.api_call("chat.postMessage",channel="#general",text=message)
         else:
             print("Connection failed. Invalid Slack token or bot ID?")
 
