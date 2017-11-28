@@ -20,3 +20,7 @@ For security reasons, we cant put bot token or id on github (please not that if 
 Last step, in order to get top news from Bloomberg, we are using the [news-api](https://newsapi.org/) webservices. You will then need to create a token on their web page and to put it in a file named news.key.
 
 ## Gallery
+
+Key financial datas             |  Top Bloomberg news   
+:-------------------------:|:-------------------------:
+<img src="../master/img/screenshot1.png">  |  <img src="../master/img/screenshot2.png">
