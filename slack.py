@@ -2,8 +2,14 @@
 """
 Created on Sun Nov 12 19:59:35 2017
 
-@author: Maxence
+@author: Maxence COUPET
 """
+
+##########################################################################
+#                                                                        #
+#                            Librairies                                  #
+#                                                                        #
+##########################################################################
 
 import time
 from slackclient import SlackClient
@@ -14,26 +20,44 @@ from time import gmtime, strftime
 from weather import Weather
 import schedule
 
-weather = Weather()
 
 
-
+##########################################################################
+#                                                                        #
+#                         Gathering API keys                             #
+#                                                                        #
+##########################################################################
 
 lines_bot = [line.rstrip('\n') for line in open('bot.key')]
 BOT_NAME = lines_bot[0]
 BOT_ID = lines_bot[1]
-
-
-# constants
-AT_BOT = "<@" + BOT_ID + ">"
-EXAMPLE_COMMAND = "do"
 
 lines_news = [line.rstrip('\n') for line in open('news.key')]
 News_Key = lines_news[0]
 
 lines_slack = [line.rstrip('\n') for line in open('slack.key')]
 slack_key = lines_slack[0]
+
+
+
+
+##########################################################################
+#                                                                        #
+#                        Initializing variables                          #
+#                                                                        #
+##########################################################################
+AT_BOT = "<@" + BOT_ID + ">"
+EXAMPLE_COMMAND = "do"
+weather = Weather()
 slack_client = SlackClient(slack_key)
+
+
+
+##########################################################################
+#                                                                        #
+#                           Core functions                               #
+#                                                                        #
+##########################################################################
 
 def handle_command(command, channel):
     """
