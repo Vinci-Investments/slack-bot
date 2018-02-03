@@ -109,7 +109,7 @@ def return_csv_crypto(item):
 def job():
     print("job")
     today_date = str(strftime("%A", gmtime()))
-    week_end = ["Sunday"]
+    week_end = ["Saturday", "Sunday"]
     if(today_date not in week_end):
         if slack_client.rtm_connect():
             print("StarterBot connected and running!")
