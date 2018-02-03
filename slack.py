@@ -55,7 +55,7 @@ EXAMPLE_COMMAND = "do"
 weather = Weather()
 slack_client = SlackClient(slack_key)
 MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
-SLEEPING_PERIOD = 10
+SLEEPING_PERIOD = 1
 INFOS_CHANNEL = '#news'
 
 
@@ -226,11 +226,11 @@ def handle_command(command, channel):
 
 def get_gif(key_word):
     giphy_api_key = "vTNtSl5Tz6gSqa5DtD2Hoo77qWxfsQSr"
-    nbr_gif = 10
+    nbr_gif = 1
     json_array = requests.request('GET', "http://api.giphy.com/v1/gifs"+
         "/search?q="+key_word+"&api_key="+giphy_api_key+"&limit="+str(nbr_gif))
     index = randint(0, nbr_gif)
-    return json_array.json()["data"][index]['url']
+    return json_array.json()["data"][0]['url']
 
 def send_last_bb_businessweek():
     
