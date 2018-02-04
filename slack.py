@@ -12,6 +12,7 @@ Created on Sun Nov 12 19:59:35 2017
 ##########################################################################
 
 from modules.scrapping import download_last_issue
+from modules.stock_data import create_plotting
 import time
 import re
 from slackclient import SlackClient
@@ -214,7 +215,35 @@ def handle_command(command, channel):
         key_word = command[4:]
         response = get_gif(key_word)
     
+    if command.startswith("plot"):
+        command_message = command[5:]
+        words = command_message.split()
+        file_name, return_object = create_plotting(words[0], words[1])
         
+        if(file_name == 'Error'):
+            response = "Il semblerait que vous n'ayez pas rentré les bons paramètres"
+        else:
+            comment = 'Voici les données clés pour ' + file_name[:-10] + ' sur cette période'
+            comment += ' :\n'+ '   '+emojize(":small_orange_diamond:", use_aliases=True) 
+            comment += 'Valeur la plus grande : ' 
+            comment += str(return_object['high']) 
+            comment += '\n' + '   '+emojize(":small_orange_diamond:", use_aliases=True) 
+            comment += 'Valeur la plus petite : '+str(return_object['low']) + '\n' 
+            comment += '   '+emojize(":small_orange_diamond:", use_aliases=True) 
+            comment +=  'Moyenne : '+str(return_object['mean']) + '\n'
+            comment += '   '+emojize(":small_orange_diamond:", use_aliases=True) 
+            comment += 'Ecart-type : '+str(return_object['std'])
+            with open('data/plotting/'+file_name, 'rb') as last_issue:
+                slack_client.api_call(
+                    "files.upload",
+                    channels=channel,
+                    filename=file_name,
+                    title=file_name,
+                    initial_comment=comment,
+                    file=io.BytesIO(last_issue.read())
+                )
+                print("Image sent")
+            return 0
         
 
     # Sends the response back to the channel
@@ -226,11 +255,11 @@ def handle_command(command, channel):
 
 def get_gif(key_word):
     giphy_api_key = "vTNtSl5Tz6gSqa5DtD2Hoo77qWxfsQSr"
-    nbr_gif = 1
+    nbr_gif = 5
     json_array = requests.request('GET', "http://api.giphy.com/v1/gifs"+
         "/search?q="+key_word+"&api_key="+giphy_api_key+"&limit="+str(nbr_gif))
     index = randint(0, nbr_gif)
-    return json_array.json()["data"][0]['url']
+    return json_array.json()["data"][index]['url']
 
 def send_last_bb_businessweek():
     
@@ -262,7 +291,7 @@ if __name__ == "__main__":
         bool_uniq = False
         
         while True:
-            
+            """
             # Checking if new bloomberg businessweek issue
             send_last_bb_businessweek()
             
@@ -277,7 +306,7 @@ if __name__ == "__main__":
             
             if(str(strftime("%H h %M", gmtime())) == message_time and bool_uniq):
                 job()
-                bool_uniq = False
+                bool_uniq = False"""
             
             # Getting different commands
             command, channel = parse_bot_commands(slack_client.rtm_read())
