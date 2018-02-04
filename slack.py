@@ -291,7 +291,7 @@ if __name__ == "__main__":
         bool_uniq = False
         
         while True:
-            """
+            
             # Checking if new bloomberg businessweek issue
             send_last_bb_businessweek()
             
@@ -306,7 +306,7 @@ if __name__ == "__main__":
             
             if(str(strftime("%H h %M", gmtime())) == message_time and bool_uniq):
                 job()
-                bool_uniq = False"""
+                bool_uniq = False
             
             # Getting different commands
             command, channel = parse_bot_commands(slack_client.rtm_read())
@@ -317,17 +317,17 @@ if __name__ == "__main__":
             time.sleep(SLEEPING_PERIOD)
     else:
         print("Connection failed. Exception traceback printed above.")
-"""while 1:
-    trigger_time = "08 h 25"
-    message_time = "08 h 30"
-    print("Temps actuel : \""+ str(strftime("%H h %M", gmtime()))+"\"")
-    print("Trigger : \""+ trigger_time+ "\" ; Message : \""+ message_time+"\"")
-    # Initialize each day at 01 h 00
-    if(str(strftime("%H h %M", gmtime())) == trigger_time):
-        bool_uniq = True
+    while 1:
+        trigger_time = "08 h 25"
+        message_time = "08 h 30"
+        print("Temps actuel : \""+ str(strftime("%H h %M", gmtime()))+"\"")
+        print("Trigger : \""+ trigger_time+ "\" ; Message : \""+ message_time+"\"")
+        # Initialize each day at 01 h 00
+        if(str(strftime("%H h %M", gmtime())) == trigger_time):
+            bool_uniq = True
     
-    if(str(strftime("%H h %M", gmtime())) == message_time and bool_uniq):
-        job()
-        bool_uniq = False
-
-    time.sleep(10)"""
+        if(str(strftime("%H h %M", gmtime())) == message_time and bool_uniq):
+            job()
+            bool_uniq = False
+        
+        time.sleep(10)
